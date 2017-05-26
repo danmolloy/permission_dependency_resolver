@@ -24,8 +24,9 @@ describe PermissionDependencyResolver do
     pdr = PermissionDependencyResolver.new(simple_permission_dependencies)
 
     expect(pdr.sort(['edit', 'delete', 'view'])).to eq ['view', 'edit', 'delete']
-    # Either of these options are valid orderings
-    expect(pdr.sort(['create', 'alter_tags', 'view', 'edit'])).to eq(['view', 'create', 'edit', 'alter_tags']).or(eq(['view', 'edit', 'create', 'alter_tags']))
+    # Any of these options are valid orderings
+    expect(pdr.sort(['create', 'alter_tags', 'view', 'edit'])).to eq(['view', 'create', 'edit', 'alter_tags']).or(eq(['view', 'edit', 'create', 'alter_tags'])).or(eq(['view',
+      'edit', 'alter_tags', 'create']))
   end
 
   it 'validates whether permissions can be denied given simple dependencies' do
@@ -65,7 +66,7 @@ describe PermissionDependencyResolver do
       ['view', 'create', 'edit', 'delete', 'audit'],
       ['view', 'edit', 'delete', 'create', 'audit']
     ]
-    expect(possible_orderings).to include(pdr.sort(['audit', 'create', 'delete', 'view', 'edit']))    
+    expect(possible_orderings).to include(pdr.sort(['audit', 'create', 'delete', 'view', 'edit']))
   end
 
 end
