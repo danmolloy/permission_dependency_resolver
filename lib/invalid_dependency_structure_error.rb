@@ -1,0 +1,2 @@
+class InvalidDependencyStructureError < StandardError
+end

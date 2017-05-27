@@ -19,6 +19,13 @@ describe PermissionDependencyResolver do
   let(:simple_pdr)  {PermissionDependencyResolver.new(simple_permission_dependencies)}
   let(:complex_pdr) {PermissionDependencyResolver.new(complex_permission_dependencies)}
 
+  it "throws an exception if initialized with invalid data" do
+    cyclic_dependencies = {'view' => ['edit'], 'edit' => ['view']}
+    expect{PermissionDependencyResolver.new({})}.not_to raise_error
+    expect{PermissionDependencyResolver.new(['test'])}.to raise_error(InvalidDependencyStructureError)
+    expect{PermissionDependencyResolver.new(cyclic_dependencies)}.to raise_error(InvalidDependencyStructureError)
+  end
+
   describe '#can_grant?' do
     it 'validates whether permissions can be granted given simple dependencies' do
       expect(simple_pdr.can_grant?(['view'], 'edit')).to eq true
