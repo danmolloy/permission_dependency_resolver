@@ -18,6 +18,7 @@ class PermissionDependencyResolver
   end
 
   def sort(permissions)
+    raise InvalidBasePermissionsError unless are_valid?(permissions)
     @to_sort = @deps.select{|k, v| permissions.include?(k)}
     self.tsort
   end

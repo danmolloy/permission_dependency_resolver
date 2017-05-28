@@ -80,5 +80,8 @@ describe PermissionDependencyResolver do
       ]
       expect(valid_orderings).to include(complex_pdr.sort(['audit', 'create', 'delete', 'view', 'edit']))
     end
+    it 'throws an exception if asked to sort an invalid set of permissions' do
+      expect{simple_pdr.sort(['edit', 'create'])}.to raise_error(InvalidBasePermissionsError)
+    end
   end
 end
